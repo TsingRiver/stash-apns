@@ -1,34 +1,29 @@
-# Keep this override BELOW "Rules 策略分流" in Stash.
-# The upstream Rules override uses #!replace for proxy-groups and rules.
-name: 📬 APNs 推送修复
-desc: APNs 独立切换自动选择、各地区策略组及订阅节点；请将本覆写排在 Rules 策略分流后面。
-category: APNs
-icon: https://raw.githubusercontent.com/TsingRiver/stash-apns/main/apns-icon.png
+name: "📬 APNs 推送修复"
+desc: "APNs 使用独立策略组；请将该覆写置于 Rules 策略分流后面"
+icon: "https://raw.githubusercontent.com/TsingRiver/stash-apns/main/apns-icon.png"
+category: "APNs"
 
-proxy-groups:
-  - name: 📬 APNs
+# Append after Rules groups to make referenced groups available first.
+proxy-groups: #!append
+  - name: "📬 APNs"
     type: select
-    icon: https://raw.githubusercontent.com/TsingRiver/stash-apns/main/apns-icon.png
+    icon: "https://raw.githubusercontent.com/TsingRiver/stash-apns/main/apns-icon.png"
     proxies:
-      - 自动选择
-      - 节点选择
-      - 全部节点
-      - 即时通讯
-      - 香港节点
-      - 台湾节点
-      - 日本节点
-      - 新加坡节点
-      - 美国节点
-      - 英国节点
-      - 澳洲节点
-      - 马来西亚节点
-      - 阿根廷节点
-      - DIRECT
-    include-all: true
-    # exclude subscription status / expiry entries from auto-imported nodes
-    filter: '(?i)^(?!.*(剩余|流量|到期|过期|套餐|官网|订阅|更新|重置|用户|倍率|余额|Traffic|Expire|Expiry|Subscription|Reset)).*$'
+      - "自动选择"
+      - "节点选择"
+      - "全部节点"
+      - "即时通讯"
+      - "美国节点"
+      - "香港节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "台湾节点"
+      - "英国节点"
+      - "马来西亚节点"
+      - "澳洲节点"
+      - "阿根廷节点"
+      - "DIRECT"
 
-# APNs rules inserted at the beginning of Rules' rules when this override is LAST.
 rules:
   - DOMAIN-SUFFIX,push.apple.com,📬 APNs
   - DOMAIN-SUFFIX,akadns.net,📬 APNs
