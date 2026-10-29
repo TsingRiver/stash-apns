@@ -1,5 +1,5 @@
 name: "📬 APNs 推送修复"
-desc: "APNs 使用独立策略组；请将该覆写置于 Rules 策略分流后面"
+desc: "APNs 使用独立策略组；与 Rules 策略分流共用时，按已验证顺序将 APNs 放在 Rules 上方"
 icon: "https://raw.githubusercontent.com/TsingRiver/stash-apns/main/apns-icon.png"
 category: "APNs"
 
