@@ -118,25 +118,26 @@ proxy-groups: #!replace
     type: url-test
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
     include-all: true
-    # Exclude status entries and prefer nodes from known ChatGPT-supported regions.
-    # HTTP latency alone cannot establish account/region eligibility.
-    filter: "(?i)^(?!.*(剩余|流量|到期|过期|套餐|官网|订阅|更新|重置|用户|倍率|余额|Traffic|Expire|Expiry|Subscription|Reset))(?=.*(美国|日本|新加坡|台湾|英国|澳洲|澳大利亚|马来西亚|阿根廷|德国|法国|瑞典|韩国|(?:^|[^A-Za-z])US(?:$|[^A-Za-z])|(?:^|[^A-Za-z])JP(?:$|[^A-Za-z])|(?:^|[^A-Za-z])SG(?:$|[^A-Za-z])|(?:^|[^A-Za-z])UK(?:$|[^A-Za-z])|(?:^|[^A-Za-z])AU(?:$|[^A-Za-z])|United\\s*States|Japan|Singapore|Taiwan|Australia|United\\s*Kingdom)).*$"
+    # Test every real subscription node, no geographic whitelist.
+    # This excludes informational / subscription-status placeholder entries.
+    filter: "(?i)^(?!.*(剩余|流量|到期|过期|套餐|官网|订阅|更新|重置|用户|倍率|余额|唯一地址|Traffic|Expire|Expiry|Subscription|Reset)).*$"
     url: "https://chatgpt.com/cdn-cgi/trace"
     interval: 300
     tolerance: 100
     lazy: true
-  - name: "AI平台"
+  - name: "Gemini"
     type: select
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
+    icon: "https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-png/light/gemini-color.png"
     proxies:
-      - "ChatGPT 自动优选"
-      - "节点选择"
       - "自动选择"
+      - "节点选择"
       - "全部节点"
       - "香港节点"
       - "日本节点"
       - "新加坡节点"
       - "美国节点"
+      - "英国节点"
+      - "台湾节点"
   - name: "Claude"
     type: select
     icon: "https://unpkg.com/@lobehub/icons-static-png@1.91.0/light/claude-color.png"
@@ -559,8 +560,11 @@ rules: #!replace
   - "DOMAIN-SUFFIX,local,DIRECT"
   - "IP-CIDR,127.0.0.0/8,DIRECT,no-resolve"
   - "IP-CIDR6,::1/128,DIRECT,no-resolve"
-  - "DOMAIN-SUFFIX,openai.com,AI平台"
-  - "DOMAIN-SUFFIX,chatgpt.com,AI平台"
+  - "DOMAIN-SUFFIX,openai.com,ChatGPT 自动优选"
+  - "DOMAIN-SUFFIX,chatgpt.com,ChatGPT 自动优选"
+  - "DOMAIN,gemini.google.com,Gemini"
+  - "DOMAIN,aistudio.google.com,Gemini"
+  - "DOMAIN,generativelanguage.googleapis.com,Gemini"
   - "DOMAIN-SUFFIX,anthropic.com,Claude"
   - "DOMAIN-SUFFIX,claude.ai,Claude"
   - "DOMAIN-SUFFIX,googlevideo.com,国外媒体"
@@ -585,20 +589,20 @@ rules: #!replace
   - "DOMAIN-SUFFIX,gitlab.com,国外网站"
   - "DOMAIN-SUFFIX,x.com,国外网站"
   - "DOMAIN-SUFFIX,twitter.com,国外网站"
-  - "DOMAIN,ios.chat.openai.com,AI平台"
-  - "DOMAIN,android.chat.openai.com,AI平台"
-  - "DOMAIN-SUFFIX,auth.openai.com,AI平台"
+  - "DOMAIN,ios.chat.openai.com,ChatGPT 自动优选"
+  - "DOMAIN,android.chat.openai.com,ChatGPT 自动优选"
+  - "DOMAIN-SUFFIX,auth.openai.com,ChatGPT 自动优选"
   - "RULE-SET,advertising,广告拦截"
   - "RULE-SET,lan,国内网站"
   - "RULE-SET,bilibili,国内网站"
   - "RULE-SET,china,国内网站"
   - "RULE-SET,bytedance,字节跳动"
   - "RULE-SET,chinamedia,国内网站"
-  - "RULE-SET,openai,AI平台"
+  - "RULE-SET,openai,ChatGPT 自动优选"
   - "RULE-SET,claude,Claude"
   - "RULE-SET,anthropic,Claude"
-  - "RULE-SET,gemini,AI平台"
-  - "RULE-SET,copilot,AI平台"
+  - "RULE-SET,gemini,Gemini"
+  - "RULE-SET,copilot,ChatGPT 自动优选"
   - "RULE-SET,youtube,国外媒体"
   - "RULE-SET,netflix,国外媒体"
   - "RULE-SET,spotify,国外媒体"
