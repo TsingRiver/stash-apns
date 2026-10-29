@@ -1,0 +1,15 @@
+name: APNs 推送修复（自动选择）
+desc: 将 Apple 推送通知相关网络连接通过自动选择策略组转发
+rules:
+  - DOMAIN-SUFFIX,push.apple.com,自动选择
+  - DOMAIN-SUFFIX,akadns.net,自动选择
+  - DOMAIN-KEYWORD,apple.com.edgekey.net,自动选择
+  - IP-CIDR,17.249.0.0/16,自动选择,no-resolve
+  - IP-CIDR,17.252.0.0/16,自动选择,no-resolve
+  - IP-CIDR,17.57.144.0/22,自动选择,no-resolve
+  - IP-CIDR,17.188.128.0/18,自动选择,no-resolve
+  - IP-CIDR,17.188.20.0/23,自动选择,no-resolve
+  - IP-CIDR6,2620:149:a44::/48,自动选择,no-resolve
+  - IP-CIDR6,2403:300:a42::/48,自动选择,no-resolve
+  - IP-CIDR6,2403:300:a51::/48,自动选择,no-resolve
+  - IP-CIDR6,2a01:b740:a42::/48,自动选择,no-resolve
