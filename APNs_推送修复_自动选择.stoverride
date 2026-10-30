@@ -27,7 +27,7 @@
 # SOFTWARE.
 # Generated from the unified strategy model
 name: "📬 APNs + Rules 一体化"
-desc: "保留 Rules 完整分流，加入 APNs 独立策略组，以及 ChatGPT 专用连通性自动优选。"
+desc: "保留 Rules 完整分流及 APNs，ChatGPT 默认自动优选，也可手动切换至家宽②链式出口。"
 homepage: https://github.com/TsingRiver/stash-apns
 author: Rules contributors / TsingRiver
 category: Policy
@@ -114,13 +114,23 @@ proxy-groups: #!replace
       - "日本节点"
       - "新加坡节点"
       - "美国节点"
+  # 用户可在“ChatGPT 线路选择”里手动指定家宽出口，或随时切回自动优选。
+  # 需要同时启用“家宽②｜balala 自动中转”私人覆写，它提供家宽②｜固定出口策略组。
+  - name: "ChatGPT 线路选择"
+    type: select
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
+    proxies:
+      - "ChatGPT 自动优选"
+      - "家宽②｜固定出口"
+      - "节点选择"
+      - "全部节点"
   - name: "ChatGPT 自动优选"
     type: url-test
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
     include-all: true
     # Test every real subscription node, no geographic whitelist.
     # This excludes informational / subscription-status placeholder entries.
-    filter: "(?i)^(?!.*(剩余|流量|到期|过期|套餐|官网|订阅|更新|重置|用户|倍率|余额|唯一地址|Traffic|Expire|Expiry|Subscription|Reset)).*$"
+    filter: "(?i)^(?!.*家宽②｜链式出口)(?!.*(剩余|流量|到期|过期|套餐|官网|订阅|更新|重置|用户|倍率|余额|唯一地址|Traffic|Expire|Expiry|Subscription|Reset)).*$"
     url: "https://chatgpt.com/cdn-cgi/trace"
     interval: 300
     tolerance: 100
@@ -560,8 +570,8 @@ rules: #!replace
   - "DOMAIN-SUFFIX,local,DIRECT"
   - "IP-CIDR,127.0.0.0/8,DIRECT,no-resolve"
   - "IP-CIDR6,::1/128,DIRECT,no-resolve"
-  - "DOMAIN-SUFFIX,openai.com,ChatGPT 自动优选"
-  - "DOMAIN-SUFFIX,chatgpt.com,ChatGPT 自动优选"
+  - "DOMAIN-SUFFIX,openai.com,ChatGPT 线路选择"
+  - "DOMAIN-SUFFIX,chatgpt.com,ChatGPT 线路选择"
   - "DOMAIN,gemini.google.com,Gemini"
   - "DOMAIN,aistudio.google.com,Gemini"
   - "DOMAIN,generativelanguage.googleapis.com,Gemini"
@@ -589,16 +599,16 @@ rules: #!replace
   - "DOMAIN-SUFFIX,gitlab.com,国外网站"
   - "DOMAIN-SUFFIX,x.com,国外网站"
   - "DOMAIN-SUFFIX,twitter.com,国外网站"
-  - "DOMAIN,ios.chat.openai.com,ChatGPT 自动优选"
-  - "DOMAIN,android.chat.openai.com,ChatGPT 自动优选"
-  - "DOMAIN-SUFFIX,auth.openai.com,ChatGPT 自动优选"
+  - "DOMAIN,ios.chat.openai.com,ChatGPT 线路选择"
+  - "DOMAIN,android.chat.openai.com,ChatGPT 线路选择"
+  - "DOMAIN-SUFFIX,auth.openai.com,ChatGPT 线路选择"
   - "RULE-SET,advertising,广告拦截"
   - "RULE-SET,lan,国内网站"
   - "RULE-SET,bilibili,国内网站"
   - "RULE-SET,china,国内网站"
   - "RULE-SET,bytedance,字节跳动"
   - "RULE-SET,chinamedia,国内网站"
-  - "RULE-SET,openai,ChatGPT 自动优选"
+  - "RULE-SET,openai,ChatGPT 线路选择"
   - "RULE-SET,claude,Claude"
   - "RULE-SET,anthropic,Claude"
   - "RULE-SET,gemini,Gemini"
