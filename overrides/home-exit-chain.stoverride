@@ -1,19 +1,23 @@
 name: '家宽②｜机场自动中转'
 desc: '通过机场自动选路，固定以洛杉矶家宽② VLESS Reality 为最终出口。国内分流规则不变。'
 # Stash iOS/tvOS 3.7+ (覆写参数功能)
-# 为避免公开泄露机场订阅 Token 和 VLESS 用户 ID，首次导入须填写两个参数。
+# 本文件放在公开 GitHub：不会预填私密订阅 Token 和 VLESS 用户 ID。
+# 导入后请在 Stash → 覆写 → 本覆写 → 参数 中填写以下两个值，然后保存并应用。
+# relay_url: 使用 balala 订阅的 Clash/Stash 格式地址（把 ?app=shadowrocket 改成 ?app=clash 后需确认服务商支持）。
+# exit_uuid: 使用家宽② Shadowrocket JSON 的 password 字段，不是 JSON 的 uuid 字段。
+# 若 balala 返回的不是含 proxies: 的 YAML，远程代理集会解析失败；需要服务商提供兼容订阅。
 arguments-version: 1
 arguments:
   relay_url:
     type: input
     title: '机场订阅（Clash/Stash YAML）'
-    description: '填写返回 proxies: 列表的 Clash/Stash 订阅地址；原 Shadowrocket 链接不保证兼容。'
+    description: '填写你的 api.balala.top/net/...?...=clash 订阅（必须能返回含 proxies: 的 YAML）。原 Shadowrocket 订阅不能保证兼容。'
     required: true
     max-length: 2048
   exit_uuid:
     type: input
     title: '家宽② VLESS 用户 ID'
-    description: '填写 Shadowrocket 导出中 password 字段的 UUID（不是 uuid 字段）。'
+    description: '填写家宽②的 Shadowrocket JSON 中 password 字段的 UUID；不是 uuid 字段。'
     required: true
     max-length: 64
 
