@@ -1,0 +1,55 @@
+name: '家宽②｜机场自动中转'
+desc: '通过机场自动选路，固定以洛杉矶家宽② VLESS Reality 为最终出口。国内分流规则不变。'
+# Stash iOS/tvOS 3.7+ (覆写参数功能)
+# 为避免公开泄露机场订阅 Token 和 VLESS 用户 ID，首次导入须填写两个参数。
+arguments-version: 1
+arguments:
+  relay_url:
+    type: input
+    title: '机场订阅（Clash/Stash YAML）'
+    description: '填写返回 proxies: 列表的 Clash/Stash 订阅地址；原 Shadowrocket 链接不保证兼容。'
+    required: true
+    max-length: 2048
+  exit_uuid:
+    type: input
+    title: '家宽② VLESS 用户 ID'
+    description: '填写 Shadowrocket 导出中 password 字段的 UUID（不是 uuid 字段）。'
+    required: true
+    max-length: 64
+
+proxy-providers:
+  balala-relay:
+    url: '${args.relay_url}'
+    interval: 3600
+    benchmark-url: 'http://www.apple.com/'
+    benchmark-timeout: 8
+
+proxies: #!append
+  - name: '家宽②｜链式出口'
+    type: vless
+    server: 67.215.228.4
+    port: 22467
+    uuid: '${args.exit_uuid}'
+    network: tcp
+    tls: true
+    sni: 'www.nvidia.com'
+    flow: 'xtls-rprx-vision'
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: 'BAlagWf7Gn4QR-diSOCiKZfgJ6GJVYHY8zIIujA0Flk'
+      short-id: '2ab8576588e983f1'
+    dialer-proxy: '机场中转｜自动'
+    benchmark-url: 'http://www.apple.com/'
+    benchmark-timeout: 8
+
+proxy-groups: #!append
+  - name: '机场中转｜自动'
+    type: url-test
+    use:
+      - balala-relay
+    interval: 180
+    tolerance: 100
+  - name: '家宽②｜固定出口'
+    type: select
+    proxies:
+      - '家宽②｜链式出口'
