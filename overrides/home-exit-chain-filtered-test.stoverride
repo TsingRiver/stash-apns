@@ -1,0 +1,60 @@
+name: '家宽②｜机场自动中转（过滤测试）'
+desc: '测试版：在机场中转策略组内用地区名称白名单筛选真实节点，保留家宽②固定出口。原版不变。'
+# Stash iOS/tvOS 3.7+ (覆写参数功能)
+# 本文件放在公开 GitHub：不会预填私密订阅 Token 和 VLESS 用户 ID。
+# 导入后请在 Stash → 覆写 → 本覆写 → 参数 中填写以下两个值，然后保存并应用。
+# relay_url: 使用 balala 订阅的 Clash/Stash 格式地址（把 ?app=shadowrocket 改成 ?app=clash 后需确认服务商支持）。
+# exit_uuid: 使用家宽② Shadowrocket JSON 的 password 字段，不是 JSON 的 uuid 字段。
+# 若 balala 返回的不是含 proxies: 的 YAML，远程代理集会解析失败；需要服务商提供兼容订阅。
+arguments-version: 1
+arguments:
+  relay_url:
+    type: input
+    title: '机场订阅（Clash/Stash YAML）'
+    description: '填写你的 api.balala.top/net/...?...=clash 订阅（必须能返回含 proxies: 的 YAML）。原 Shadowrocket 订阅不能保证兼容。'
+    required: true
+    max-length: 2048
+  exit_uuid:
+    type: input
+    title: '家宽② VLESS 用户 ID'
+    description: '填写家宽②的 Shadowrocket JSON 中 password 字段的 UUID；不是 uuid 字段。'
+    required: true
+    max-length: 64
+
+proxy-providers:
+  balala-relay:
+    url: '${args.relay_url}'
+    interval: 3600
+    benchmark-url: 'http://www.apple.com/'
+    benchmark-timeout: 8
+
+proxies: #!append
+  - name: '家宽②｜链式出口'
+    type: vless
+    server: 67.215.228.4
+    port: 22467
+    uuid: '${args.exit_uuid}'
+    network: tcp
+    tls: true
+    sni: 'www.nvidia.com'
+    flow: 'xtls-rprx-vision'
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: 'BAlagWf7Gn4QR-diSOCiKZfgJ6GJVYHY8zIIujA0Flk'
+      short-id: '2ab8576588e983f1'
+    dialer-proxy: '机场中转｜自动'
+    benchmark-url: 'http://www.apple.com/'
+    benchmark-timeout: 8
+
+proxy-groups: #!append
+  - name: '机场中转｜自动'
+    type: url-test
+    use:
+      - balala-relay
+    filter: '香港|澳门|台湾|日本|新加坡|美国|韩国|英国|德国|法国|加拿大|澳洲|澳大利亚|马来西亚|泰国|越南|菲律宾|印度|印尼|荷兰|瑞士|巴西|阿根廷|洛杉矶|纽约|东京|大阪|首尔|Hong Kong|Taiwan|Japan|Singapore|Los Angeles|New York|Tokyo|Osaka|Seoul|HK|MO|TW|JP|SG|US|KR|UK|DE|FR|CA|AU|MY|TH|VN|PH|IN|ID|NL|CH|BR|AR|🇭🇰|🇲🇴|🇹🇼|🇯🇵|🇸🇬|🇺🇸|🇰🇷|🇬🇧|🇩🇪|🇫🇷|🇨🇦|🇦🇺|🇲🇾|🇹🇭|🇻🇳|🇵🇭|🇮🇳|🇮🇩|🇳🇱|🇨🇭|🇧🇷|🇦🇷'
+    interval: 180
+    tolerance: 100
+  - name: '家宽②｜固定出口'
+    type: select
+    proxies:
+      - '家宽②｜链式出口'
