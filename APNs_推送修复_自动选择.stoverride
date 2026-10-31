@@ -549,7 +549,6 @@ rules: #!replace
   - "IP-CIDR6,2403:300:a42::/48,📬 APNs,no-resolve"
   - "IP-CIDR6,2403:300:a51::/48,📬 APNs,no-resolve"
   - "IP-CIDR6,2a01:b740:a42::/48,📬 APNs,no-resolve"
-  - "AND,((NETWORK,UDP),(DST-PORT,443)),REJECT"
   - "DOMAIN,localhost,DIRECT"
   - "DOMAIN-SUFFIX,local,DIRECT"
   - "IP-CIDR,127.0.0.0/8,DIRECT,no-resolve"
@@ -625,4 +624,5 @@ rules: #!replace
   - "RULE-SET,longbridge,金融网站"
   - "RULE-SET,ibkr,金融网站"
   - "RULE-SET,tigerfintech,金融网站"
+  - "GEOIP,CN,DIRECT,no-resolve"
   - "MATCH,漏网之鱼"
