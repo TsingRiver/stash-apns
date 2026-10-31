@@ -27,7 +27,7 @@
 # SOFTWARE.
 # Generated from the unified strategy model
 name: "📬 APNs + Rules 一体化"
-desc: "保留 Rules 完整分流及 APNs，ChatGPT 默认自动优选，也可手动切换至家宽②链式出口。"
+desc: "保留 Rules 完整分流及 APNs，OpenAI 与 Claude 共用手动策略组，可选择自动优选或家宽②固定出口。"
 homepage: https://github.com/TsingRiver/stash-apns
 author: Rules contributors / TsingRiver
 category: Policy
@@ -114,9 +114,9 @@ proxy-groups: #!replace
       - "日本节点"
       - "新加坡节点"
       - "美国节点"
-  # 用户可在“ChatGPT 线路选择”里手动指定家宽出口，或随时切回自动优选。
+  # OpenAI 和 Claude 共用手动策略组，支持家宽出口或自动优选。
   # 需要同时启用“家宽②｜balala 自动中转”私人覆写，它提供家宽②｜固定出口策略组。
-  - name: "ChatGPT 线路选择"
+  - name: "OpenAI / Claude"
     type: select
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
     proxies:
@@ -148,22 +148,6 @@ proxy-groups: #!replace
       - "美国节点"
       - "英国节点"
       - "台湾节点"
-  - name: "Claude"
-    type: select
-    icon: "https://unpkg.com/@lobehub/icons-static-png@1.91.0/light/claude-color.png"
-    proxies:
-      - "节点选择"
-      - "自动选择"
-      - "全部节点"
-      - "香港节点"
-      - "台湾节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "英国节点"
-      - "澳洲节点"
-      - "马来西亚节点"
-      - "阿根廷节点"
   - name: "即时通讯"
     type: select
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png"
@@ -570,13 +554,17 @@ rules: #!replace
   - "DOMAIN-SUFFIX,local,DIRECT"
   - "IP-CIDR,127.0.0.0/8,DIRECT,no-resolve"
   - "IP-CIDR6,::1/128,DIRECT,no-resolve"
-  - "DOMAIN-SUFFIX,openai.com,ChatGPT 线路选择"
-  - "DOMAIN-SUFFIX,chatgpt.com,ChatGPT 线路选择"
+  - "DOMAIN-SUFFIX,openai.com,OpenAI / Claude"
+  - "DOMAIN-SUFFIX,chatgpt.com,OpenAI / Claude"
   - "DOMAIN,gemini.google.com,Gemini"
   - "DOMAIN,aistudio.google.com,Gemini"
   - "DOMAIN,generativelanguage.googleapis.com,Gemini"
-  - "DOMAIN-SUFFIX,anthropic.com,Claude"
-  - "DOMAIN-SUFFIX,claude.ai,Claude"
+  - "DOMAIN-SUFFIX,anthropic.com,OpenAI / Claude"
+  - "DOMAIN-SUFFIX,claude.ai,OpenAI / Claude"
+  - "DOMAIN-SUFFIX,claude.com,OpenAI / Claude"
+  - "DOMAIN-SUFFIX,claude.app,OpenAI / Claude"
+  - "DOMAIN-SUFFIX,claudeusercontent.com,OpenAI / Claude"
+  - "DOMAIN-SUFFIX,claudemcpcontent.com,OpenAI / Claude"
   - "DOMAIN-SUFFIX,googlevideo.com,国外媒体"
   - "DOMAIN-SUFFIX,youtube.com,国外媒体"
   - "DOMAIN-SUFFIX,ytimg.com,国外媒体"
@@ -599,18 +587,18 @@ rules: #!replace
   - "DOMAIN-SUFFIX,gitlab.com,国外网站"
   - "DOMAIN-SUFFIX,x.com,国外网站"
   - "DOMAIN-SUFFIX,twitter.com,国外网站"
-  - "DOMAIN,ios.chat.openai.com,ChatGPT 线路选择"
-  - "DOMAIN,android.chat.openai.com,ChatGPT 线路选择"
-  - "DOMAIN-SUFFIX,auth.openai.com,ChatGPT 线路选择"
+  - "DOMAIN,ios.chat.openai.com,OpenAI / Claude"
+  - "DOMAIN,android.chat.openai.com,OpenAI / Claude"
+  - "DOMAIN-SUFFIX,auth.openai.com,OpenAI / Claude"
   - "RULE-SET,advertising,广告拦截"
   - "RULE-SET,lan,国内网站"
   - "RULE-SET,bilibili,国内网站"
   - "RULE-SET,china,国内网站"
   - "RULE-SET,bytedance,字节跳动"
   - "RULE-SET,chinamedia,国内网站"
-  - "RULE-SET,openai,ChatGPT 线路选择"
-  - "RULE-SET,claude,Claude"
-  - "RULE-SET,anthropic,Claude"
+  - "RULE-SET,openai,OpenAI / Claude"
+  - "RULE-SET,claude,OpenAI / Claude"
+  - "RULE-SET,anthropic,OpenAI / Claude"
   - "RULE-SET,gemini,Gemini"
   - "RULE-SET,copilot,ChatGPT 自动优选"
   - "RULE-SET,youtube,国外媒体"
