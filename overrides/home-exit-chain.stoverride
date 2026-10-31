@@ -24,42 +24,8 @@ arguments:
 proxy-providers:
   balala-relay:
     url: '${args.relay_url}'
-    # 过滤机场订阅中用节点名称展示的剩余流量、到期和套餐信息。
-    # Stash 远程代理集支持 filter；只保留未命中以下关键词的节点。
-    filter: '(?i)^(?!.*(?:剩余|流量|到期|过期|套餐|官网|订阅|更新|重置|用户|倍率|余额|有效期|公告|客服|Traffic|Expire|Expiry|Subscription|Reset|Remaining|Balance)).+
-    benchmark-url: 'http://www.apple.com/'
-    benchmark-timeout: 8
-
-proxies: #!append
-  - name: '家宽②｜链式出口'
-    type: vless
-    server: 67.215.228.4
-    port: 22467
-    uuid: '${args.exit_uuid}'
-    network: tcp
-    tls: true
-    sni: 'www.nvidia.com'
-    flow: 'xtls-rprx-vision'
-    client-fingerprint: chrome
-    reality-opts:
-      public-key: 'BAlagWf7Gn4QR-diSOCiKZfgJ6GJVYHY8zIIujA0Flk'
-      short-id: '2ab8576588e983f1'
-    dialer-proxy: '机场中转｜自动'
-    benchmark-url: 'http://www.apple.com/'
-    benchmark-timeout: 8
-
-proxy-groups: #!append
-  - name: '机场中转｜自动'
-    type: url-test
-    use:
-      - balala-relay
-    interval: 180
-    tolerance: 100
-  - name: '家宽②｜固定出口'
-    type: select
-    proxies:
-      - '家宽②｜链式出口'
-
+    # 机场信息节点（流量/到期/套餐等）不参与中转测速
+    filter: '(?i)^(?!.*(?:剩余|流量|到期|过期|套餐|官网|订阅|更新|重置|用户|倍率|余额|有效期|公告|客服|Traffic|Expire|Expiry|Subscription|Reset|Remaining|Balance)).+$'
     interval: 3600
     benchmark-url: 'http://www.apple.com/'
     benchmark-timeout: 8
