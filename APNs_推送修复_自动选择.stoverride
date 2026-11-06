@@ -27,7 +27,7 @@
 # SOFTWARE.
 # Generated from the unified strategy model
 name: "📬 APNs + Rules 一体化"
-desc: "保留 Rules 完整分流及 APNs，OpenAI 与 Claude 共用手动策略组，可选择自动优选或家宽②固定出口。"
+desc: "保留 Rules、APNs 与 OpenAI/Claude 独立分流；新增 PS5/Netflix 策略组，支持全部节点与家宽②固定出口。"
 homepage: https://github.com/TsingRiver/stash-apns
 author: Rules contributors / TsingRiver
 category: Policy
@@ -51,6 +51,47 @@ proxy-groups: #!replace
       - "马来西亚节点"
       - "阿根廷节点"
       - "家宽②｜固定出口"
+  # 适用于 PS5 经「路由器有线 + iPhone Stash LAN HTTP 代理」接入的域名流量；
+  # 不是按 PS5 设备强制接管全部 TCP/UDP 流量。
+  - name: "🎮 PlayStation / PS5"
+    type: select
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png"
+    proxies:
+      - "DIRECT"
+      - "节点选择"
+      - "自动选择"
+      - "全部节点"
+      - "香港节点"
+      - "台湾节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "美国节点"
+      - "英国节点"
+      - "澳洲节点"
+      - "马来西亚节点"
+      - "阿根廷节点"
+      - "家宽②｜固定出口"
+  # Netflix 专用域名分流：包括 PS5 上经 HTTP 代理的 Netflix 请求，
+  # 同时适用于手机自身的 Netflix 流量；默认沿用原国外媒体出口。
+  - name: "🎬 Netflix"
+    type: select
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"
+    proxies:
+      - "国外媒体"
+      - "节点选择"
+      - "自动选择"
+      - "全部节点"
+      - "香港节点"
+      - "台湾节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "美国节点"
+      - "英国节点"
+      - "澳洲节点"
+      - "马来西亚节点"
+      - "阿根廷节点"
+      - "家宽②｜固定出口"
+      - "DIRECT"
   - name: "全部节点"
     type: select
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Server.png"
@@ -517,6 +558,12 @@ rule-providers: #!replace
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml"
     path: "./ruleset/Apple.yaml"
     interval: 86400
+  playstation:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PlayStation/PlayStation.yaml"
+    path: "./ruleset/PlayStation.yaml"
+    interval: 86400
   steam:
     type: http
     behavior: classical
@@ -565,6 +612,21 @@ rules: #!replace
   - "DOMAIN-SUFFIX,local,DIRECT"
   - "IP-CIDR,127.0.0.0/8,DIRECT,no-resolve"
   - "IP-CIDR6,::1/128,DIRECT,no-resolve"
+  # 高优先级 Netflix 规则，避免其他国外媒体/国外网站策略提前匹配。
+  - "DOMAIN-SUFFIX,netflix.com,🎬 Netflix"
+  - "DOMAIN-SUFFIX,netflix.net,🎬 Netflix"
+  - "DOMAIN-SUFFIX,nflxvideo.net,🎬 Netflix"
+  - "DOMAIN-SUFFIX,nflximg.net,🎬 Netflix"
+  - "DOMAIN-SUFFIX,nflximg.com,🎬 Netflix"
+  - "DOMAIN-SUFFIX,nflxso.net,🎬 Netflix"
+  - "DOMAIN-SUFFIX,nflxext.com,🎬 Netflix"
+  - "DOMAIN-SUFFIX,nflxsearch.net,🎬 Netflix"
+  - "DOMAIN-SUFFIX,fast.com,🎬 Netflix"
+  # PlayStation/PSN 服务按目标域名分流，与 Netflix 互不冲突。
+  - "DOMAIN-SUFFIX,playstation.com,🎮 PlayStation / PS5"
+  - "DOMAIN-SUFFIX,playstation.net,🎮 PlayStation / PS5"
+  - "DOMAIN-SUFFIX,playstationnetwork.com,🎮 PlayStation / PS5"
+  - "DOMAIN-SUFFIX,sonyentertainmentnetwork.com,🎮 PlayStation / PS5"
   - "DOMAIN-SUFFIX,openai.com,OpenAI / Claude"
   - "DOMAIN-SUFFIX,chatgpt.com,OpenAI / Claude"
   - "DOMAIN,gemini.google.com,Gemini"
@@ -601,6 +663,7 @@ rules: #!replace
   - "DOMAIN,ios.chat.openai.com,OpenAI / Claude"
   - "DOMAIN,android.chat.openai.com,OpenAI / Claude"
   - "DOMAIN-SUFFIX,auth.openai.com,OpenAI / Claude"
+  - "RULE-SET,playstation,🎮 PlayStation / PS5"
   - "RULE-SET,advertising,广告拦截"
   - "RULE-SET,lan,国内网站"
   - "RULE-SET,bilibili,国内网站"
@@ -613,7 +676,7 @@ rules: #!replace
   - "RULE-SET,gemini,Gemini"
   - "RULE-SET,copilot,ChatGPT 自动优选"
   - "RULE-SET,youtube,国外媒体"
-  - "RULE-SET,netflix,国外媒体"
+  - "RULE-SET,netflix,🎬 Netflix"
   - "RULE-SET,spotify,国外媒体"
   - "RULE-SET,tiktok,国外媒体"
   - "RULE-SET,globalmedia,国外媒体"
