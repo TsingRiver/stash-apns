@@ -51,47 +51,6 @@ proxy-groups: #!replace
       - "马来西亚节点"
       - "阿根廷节点"
       - "家宽②｜固定出口"
-  # 适用于 PS5 经「路由器有线 + iPhone Stash LAN HTTP 代理」接入的域名流量；
-  # 不是按 PS5 设备强制接管全部 TCP/UDP 流量。
-  - name: "🎮 PlayStation / PS5"
-    type: select
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png"
-    proxies:
-      - "DIRECT"
-      - "节点选择"
-      - "自动选择"
-      - "全部节点"
-      - "香港节点"
-      - "台湾节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "英国节点"
-      - "澳洲节点"
-      - "马来西亚节点"
-      - "阿根廷节点"
-      - "家宽②｜固定出口"
-  # Netflix 专用域名分流：包括 PS5 上经 HTTP 代理的 Netflix 请求，
-  # 同时适用于手机自身的 Netflix 流量；默认沿用原国外媒体出口。
-  - name: "🎬 Netflix"
-    type: select
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"
-    proxies:
-      - "国外媒体"
-      - "节点选择"
-      - "自动选择"
-      - "全部节点"
-      - "香港节点"
-      - "台湾节点"
-      - "日本节点"
-      - "新加坡节点"
-      - "美国节点"
-      - "英国节点"
-      - "澳洲节点"
-      - "马来西亚节点"
-      - "阿根廷节点"
-      - "家宽②｜固定出口"
-      - "DIRECT"
   - name: "全部节点"
     type: select
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Server.png"
@@ -143,6 +102,37 @@ proxy-groups: #!replace
     lazy: true
     strategy: consistent-hashing
     hidden: true
+  # OpenAI 和 Claude 共用手动策略组，支持家宽出口或自动优选。
+  # 需要同时启用“家宽②｜balala 自动中转”私人覆写，它提供家宽②｜固定出口策略组。
+  - name: "OpenAI / Claude"
+    type: select
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
+    proxies:
+      - "ChatGPT 自动优选"
+      - "家宽②｜固定出口"
+      - "节点选择"
+      - "全部节点"
+  # Netflix 专用域名分流：包括 PS5 上经 HTTP 代理的 Netflix 请求，
+  # 同时适用于手机自身的 Netflix 流量；默认沿用原国外媒体出口。
+  - name: "🎬 Netflix"
+    type: select
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"
+    proxies:
+      - "国外媒体"
+      - "节点选择"
+      - "自动选择"
+      - "全部节点"
+      - "香港节点"
+      - "台湾节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "美国节点"
+      - "英国节点"
+      - "澳洲节点"
+      - "马来西亚节点"
+      - "阿根廷节点"
+      - "家宽②｜固定出口"
+      - "DIRECT"
   - name: "国外媒体"
     type: select
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png"
@@ -157,16 +147,6 @@ proxy-groups: #!replace
       - "新加坡节点"
       - "美国节点"
       - "家宽②｜固定出口"
-  # OpenAI 和 Claude 共用手动策略组，支持家宽出口或自动优选。
-  # 需要同时启用“家宽②｜balala 自动中转”私人覆写，它提供家宽②｜固定出口策略组。
-  - name: "OpenAI / Claude"
-    type: select
-    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
-    proxies:
-      - "ChatGPT 自动优选"
-      - "家宽②｜固定出口"
-      - "节点选择"
-      - "全部节点"
   - name: "ChatGPT 自动优选"
     type: url-test
     icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png"
@@ -191,6 +171,26 @@ proxy-groups: #!replace
       - "美国节点"
       - "英国节点"
       - "台湾节点"
+      - "家宽②｜固定出口"
+  # 适用于 PS5 经「路由器有线 + iPhone Stash LAN HTTP 代理」接入的域名流量；
+  # 不是按 PS5 设备强制接管全部 TCP/UDP 流量。
+  - name: "🎮 PlayStation / PS5"
+    type: select
+    icon: "https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png"
+    proxies:
+      - "DIRECT"
+      - "节点选择"
+      - "自动选择"
+      - "全部节点"
+      - "香港节点"
+      - "台湾节点"
+      - "日本节点"
+      - "新加坡节点"
+      - "美国节点"
+      - "英国节点"
+      - "澳洲节点"
+      - "马来西亚节点"
+      - "阿根廷节点"
       - "家宽②｜固定出口"
   - name: "即时通讯"
     type: select
